@@ -39,17 +39,17 @@ impl Default for ExampleApp {
 }
 
 impl eframe::App for ExampleApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        egui::CentralPanel::default().show_inside(ui, |ui| {
             egui::ScrollArea::vertical().show(ui, |ui| {
-                self.show_example(ctx, ui);
+                self.show_example(ui);
             });
         });
     }
 }
 
 impl ExampleApp {
-    fn show_example(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
+    fn show_example(&mut self, ui: &mut egui::Ui) {
         ui.heading("egui-keybind example");
 
         ui.add_space(4.0);
@@ -96,7 +96,7 @@ impl ExampleApp {
             "First keybind: {keybind_text} (you can use modifier keys!)"
         ));
 
-        if ctx.input_mut(|i| self.shortcut.pressed(i)) {
+        if ui.input_mut(|i| self.shortcut.pressed(i)) {
             self.times_pressed += 1;
         }
         if keybind_text != "None" {
